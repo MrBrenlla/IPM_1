@@ -4,10 +4,10 @@ Repositorio de la práctica 1 de IPM, curso 2021.
 
 ## Miembros del grupo
 
-  * Nombre:
-  * Apellidos:
-  * Login UDC:
-  * Login Github:
+  * Nombre: Yago
+  * Apellidos: Mira Urdampilleta 
+  * Login UDC: yago.mira
+  * Login Github: YagoMira
   
   * Nombre:
   * Apellidos:
