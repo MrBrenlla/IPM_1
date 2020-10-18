@@ -6,7 +6,7 @@ El programa estará formado por dos ventanas:
 
 	-Ventana(Vista) principal: 
 
-		La cual nos mostrará todos los posibles intervalos (sin diferenciar ascendente o descendente).	
+		La cual nos mostrará todos los 	posibles intervalos (sin diferenciar ascendente o descendente).	
 
 	-Ventana(vista) secundaria: 
 
@@ -22,46 +22,19 @@ El programa estará formado por dos ventanas:
 
 
 
-  * HeaderBar: "Seleccione un intervalo"
+  * Título ventana: Seleccione un intervalo
 
-  * Action: Indicará al usuario que es lo que tiene que hacer en la ventana.
-
-
-
-  * Button: "2m,2M,3m,3M" (Intervalos musicales)
-
-  * Action: Cada propio botón abrirá una ventana secundaria que contendrá lo anteriormente mencionado.
-
-
-
-  * FlowBox: Contenedor buttons
-
-  * Action: Nos permitirá colocar los buttons de manera ordenada en la ventana
-
+  * Acción: Abrir ventana correspondiente a cada intervalo (existirá una 'Acción' por cada intervalo)
 
 
 ## Vista secundaria
 
   
+  * Texto: Tipo de intervalo (Ascendente o descendente)
 
-  * Label: Orden del intervalo
+  * Texto: Notas distanciadas el intervalo seleccionado y en un orden concreto (ascendente o descendente)
 
-  * Action: Nos permitirá indicar el orden intervalo correspondiente (asc o desc) y el conjunto de notas que cumple las condiciones anteriormente mencionadas.
-
-
-
-  * Grid: Contenedor de labels y listbox
-
-  * Action: Nos permitirá colocar las labels y listbox adecuadamente en la ventana
-
-
-
-  * ListBox: Listas de canciones
-
-  * Action: Contendrán las diferentes canciones para el orden de intervalo correspondiente
-
-
-
+  * Lista: Listas de canciones (1 lista para cada tipo de intervalo)
 
 
 # Decisiones
@@ -70,7 +43,7 @@ El programa estará formado por dos ventanas:
 
 	-Con esto limitamos que el usuario tenga que introducir texto en una pantalla.
 
-	-Además, no existen más intervalos músicales de los que ya conocemos y por tanto no se prevee unas actualizaciones futuras al software por esta parte, por tanto concluímos que el uso de los 		botones es adecuado.
+	-Además, no existen más intervalos músicales de los que ya conocemos y por tanto no se prevee unas actualizaciones futuras al software por esta parte, por tanto concluímos que el uso de los botones es adecuado.
 
 	-Con esto no nos tenemos que preocupar de si los nombres son demasiado largos o cortos.
 
