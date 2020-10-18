@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#coding: utf-8
 
 import gi
 import requests
@@ -6,7 +7,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 from random import randint
-
+from html import escape
 
 startNote = 0
 
@@ -74,7 +75,6 @@ class GUI(Gtk.Window):
         global notes
 
         notes = Requests.data_request()
-        print(notes)
 
         #Add elements to FlowBox
 
@@ -92,7 +92,7 @@ class GUI(Gtk.Window):
 
         note_name =  button.get_label()
 
-        print("Interval: " + note_name) #Get name of note
+        print("Abriuse a ventana " + note_name) #Get name of note
 
         note_Window = Additional_GUI(note_name)
         note_Window.show_all()
@@ -145,6 +145,7 @@ class Additional_GUI(Gtk.Window):
              else:
                 text="<a href=\""+songsAsc[i][1]+"\" > "+songsAsc[i][0]+" </a>"
 
+             escape(text, quote=True)
              song = Gtk.Label()
              song.set_markup(text)
 
@@ -216,7 +217,6 @@ class Requests():
     def data_request():
 
         r = requests.get(url+'intervals')
-        print(r.json()['data'].keys())
         return r.json()['data'].keys()
 
 
