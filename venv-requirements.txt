@@ -4,3 +4,4 @@ https://github.com/cabrero/p1libs/archive/master.zip
 vext
 vext.gi
 requests
+html
