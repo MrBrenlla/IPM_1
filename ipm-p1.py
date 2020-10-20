@@ -163,6 +163,7 @@ class Additional_GUI(Gtk.Window):
             else:
                 text="<a href=\""+songsDes[i][1]+"\" > "+songsDes[i][0]+" </a>"
 
+            escape(text, quote=True)
             song = Gtk.Label()
             song.set_markup(text)
 
