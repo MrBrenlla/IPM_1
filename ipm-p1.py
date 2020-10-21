@@ -9,7 +9,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GObject, GLib
 GObject.threads_init()
 
-
+from sys import exit
 from random import randint
 from html import escape
 
@@ -182,15 +182,12 @@ class Additional_GUI(Gtk.Window):
 
 class Requests():
 
-    global url
-
-
     def interval_request(note_name):
 
         #r = requests.get('http://127.0.0.1:5000/intervals')
         #NOTE-DATA REQUEST
 
-        r = requests.get(url+'intervals')
+        r = Requests.server_request('intervals',True)
 
         #DATA -> KEY
 
@@ -208,14 +205,55 @@ class Requests():
 
     def data_request():
 
-        r = requests.get(url+'intervals')
+        r = Requests.server_request('intervals',False)
         return r.json()['data'].keys()
 
 
     def getSongs(interval,order):
 
-        r = requests.get(url+"songs/"+str(interval)+"/"+str(order))
+        r = Requests.server_request("songs/"+str(interval)+"/"+str(order),False)
         return r.json()['data']
+
+
+    def server_request(url_end,bool):
+
+        global url
+
+        try:
+            r=requests.get(url+url_end)
+        except Exception as e:
+            err = error()
+            if bool:
+                GLib.idle_add(err.server_error,e,bool)
+
+            else:
+                err.server_error(e,bool)
+                err.dialog.connect("response",Gtk.main_quit)
+                err.dialog.connect("destroy",Gtk.main_quit)
+                Gtk.main()
+            exit()
+        else:
+            return r
+
+class error:
+
+    dialog=None
+
+    def server_error(self, e,bool):
+        text= "Unexpected error:\n"+ escape(str(e))
+        self.dialog = Gtk.Dialog()
+        self.dialog.set_title("Error")
+        self.dialog.set_modal(True)
+        self.dialog.add_button(button_text="OK",response_id=0)
+        content_area = self.dialog.get_content_area()
+        label = Gtk.Label(text)
+        content_area.add(label)
+        self.dialog.show_all()
+        if bool:
+            self.dialog.connect("response",self.end)
+
+    def end(self,a,b):
+        self.dialog.destroy()
 
 notes = Requests.data_request()
 
