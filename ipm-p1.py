@@ -1,37 +1,32 @@
 #!/usr/bin/env python3
 #coding: utf-8
 
-
 import gi
 import requests
+import threading
+
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject, GLib
+GObject.threads_init()
+
 
 from random import randint
 from html import escape
 
-startNote = 0
-
-notes = None
 
 url = "http://127.0.0.1:5000/" #URL/PORT
 
-
-
 lNotes= ("do","re♭","re","mi♭","mi","fa","sol♭","sol","la♭","la","si♭","si")
-
-lDistances= (1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7)
 
 
 #Main Window
 
 class GUI(Gtk.Window):
 
-    global startNote
-
     #Initialize GUI
 
     def __init__(self):
+
         Gtk.Window.__init__(self,title= "Intervalos")
 
 
@@ -59,9 +54,6 @@ class GUI(Gtk.Window):
         flowbox.set_valign(Gtk.Align.FILL)
         flowbox.set_max_children_per_line(4)
 
-        #flowbox.connect("child-activated", self.on_child_activated)
-
-
 
         #FlowBox properties
 
@@ -70,33 +62,30 @@ class GUI(Gtk.Window):
         self.add(flowbox)
 
 
-
-        #Get Interval Array
-
-        global notes
-
-        notes = Requests.data_request()
-
         #Add elements to FlowBox
 
         for count in notes:
             label = Gtk.Button(label= count)
-            label.connect('clicked', self.on_button_clicked)
+            label.connect('clicked', click.on_button_clicked)
             label.set_property("width-request", 50) #Button Size
             label.set_property("height-request", 15) #Button Size
             flowbox.add(label)
 
-
     #In case of click on Button
 
-    def on_button_clicked(self, button):
+class click:
 
-        note_name =  button.get_label()
+    def on_button_clicked(button):
 
-        print("Abriuse a ventana " + note_name) #Get name of note
+        note =  button.get_label()
 
-        note_Window = Additional_GUI(note_name)
-        note_Window.show_all()
+        win = Gtk.Window(title= note)
+        print("Abriuse a ventana " + note) #Get name of note
+        x=threading.Thread(target=Additional_GUI,args=(note,win))
+        x.start()
+
+    def end_on_button_clicked(win):
+        win.show_all()
 
 
 
@@ -106,33 +95,30 @@ class Additional_GUI(Gtk.Window):
 
     #Initialize GUI
 
-    def __init__(self,note):
+    def __init__(self,note,win):
 
-        Gtk.Window.__init__(self,title= note)
-        self.set_default_size(300, 200)
-        self.set_border_width(30)
-
-
-        grid = Gtk.Grid()
-        self.add(grid)
-
-
-
-        label_Asc = Gtk.Label(label="Ascendente:", xalign=0)
-        label_Des = Gtk.Label(label="Descentente:", xalign=0)
 
 
         notaIni= randint(0,11)
         distancia=Requests.interval_request(note)
         ascendente=str(lNotes[notaIni])+"-"+str(lNotes[(notaIni+distancia)%12])
         descendente=str(lNotes[notaIni])+"-"+str(lNotes[(notaIni-distancia)%12])
+
+        win.set_default_size(300, 200)
+        win.set_border_width(30)
+
+        grid = Gtk.Grid()
+        win.add(grid)
+
+        label_Asc = Gtk.Label(label="Ascendente:", xalign=0)
+        label_Des = Gtk.Label(label="Descentente:", xalign=0)
+
         Additional_GUI.notes_Asc = Gtk.Label(label="Exemplo:"+ascendente, xalign=0)
         Additional_GUI.notes_Des = Gtk.Label(label="Exemplo:"+descendente, xalign=0)
 
-
-
         lb_Asc = Gtk.ListBox()
         lb_Des = Gtk.ListBox()
+
 
 
         songsAsc= Requests.getSongs(note,"asc")
@@ -142,11 +128,12 @@ class Additional_GUI(Gtk.Window):
         for i in range(0, len(songsAsc)):
 
              if songsAsc[i][2]=="YES":
-                 text="<a href=\""+songsAsc[i][1]+"\" > <b> "+songsAsc[i][0]+" </b></a>"
+                 text="<a href=\""+escape(songsAsc[i][1])+"\" > <b> "+songsAsc[i][0]+" </b></a>"
              else:
-                text="<a href=\""+songsAsc[i][1]+"\" > "+songsAsc[i][0]+" </a>"
+                text="<a href=\""+escape(songsAsc[i][1])+"\" > "+songsAsc[i][0]+" </a>"
 
              escape(text, quote=True)
+
              song = Gtk.Label()
              song.set_markup(text)
 
@@ -159,9 +146,10 @@ class Additional_GUI(Gtk.Window):
         for i in range(0, len(songsDes)):
 
             if songsDes[i][2]=="YES":
-                text="<a href=\""+songsDes[i][1]+"\" > <b> "+songsDes[i][0]+" </b></a>"
+                text="<a href=\""+escape(songsDes[i][1])+"\" > <b> "+songsDes[i][0]+" </b></a>"
             else:
-                text="<a href=\""+songsDes[i][1]+"\" > "+songsDes[i][0]+" </a>"
+                text="<a href=\""+escape(songsDes[i][1])+"\" > "+songsDes[i][0]+" </a>"
+
 
             escape(text, quote=True)
             song = Gtk.Label()
@@ -188,6 +176,8 @@ class Additional_GUI(Gtk.Window):
         grid.attach_next_to(lb_Asc, Additional_GUI.notes_Asc, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(lb_Des, lb_Asc, Gtk.PositionType.RIGHT, 1, 1)
 
+
+        GLib.idle_add(click.end_on_button_clicked,win)
 
 
 class Requests():
@@ -227,8 +217,10 @@ class Requests():
         r = requests.get(url+"songs/"+str(interval)+"/"+str(order))
         return r.json()['data']
 
+notes = Requests.data_request()
 
 window = GUI()
 window.connect("destroy", Gtk.main_quit) #In case of window exit
 window.show_all()
+
 Gtk.main()
