@@ -4,6 +4,7 @@
 import sys
 import textwrap
 from collections import namedtuple
+from time import sleep
 
 import gi
 gi.require_version('Atspi', '2.0')
@@ -61,6 +62,7 @@ def when_pulso_el_boton_3M(ctx):
     return ctx
 
 def then_veo_la_ventana_3M(ctx):
+    sleep(2) #Esperamos por se a pantalla ainda non cargou
     gen = (node for _path, node in e2e.tree(ctx.app) if node.get_role_name() == 'frame' and node.get_name() == '3M')
     frame = next(gen, None)
     assert frame and frame.get_name() == "3M", frame.get_text()
