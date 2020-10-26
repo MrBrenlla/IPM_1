@@ -28,7 +28,7 @@ print('\033[91m', "Esta proba está pensada para facela en es_ES.utf-8,\n ainda 
     WHEN pulso el botón '3M'
     THEN veo la ventana '3M'
     THEN veo el texto "Ascendente:"
-    THEN veo el text "Exemplo:+intervalo"
+    THEN veo el text "Ejemplo:+intervalo"
 """
 
 # Funciones de ayuda
@@ -82,7 +82,7 @@ def then_interv_asc_novacio(ctx):
     gen = (node for _path, node in e2e.tree(ctx.app) if node.get_role_name() == 'label' and node.get_text(0, -1).startswith("Ejemplo:"))
     label = next(gen, None) #Ventana des
     label = next(gen, None) #Ventana asc
-    text_size= len("Exemplo:")
+    text_size= len("Ejemplo:")
     assert label and len(label.get_text(0, -1)) > text_size, label.get_text(0, -1)
     #print("LABEL TEXT: " + label.get_text(0, -1))
     return ctx
@@ -141,7 +141,7 @@ if __name__ == '__main__':
     WHEN pulso el botón '3M'
     THEN veo la ventana '3M'
     THEN veo el texto "Ascendente:"
-    THEN veo el text "Exemplo:+intervalo"
+    THEN veo el text "Ejemplo:+intervalo"
     """)
     ctx = initial_ctx
     try:
