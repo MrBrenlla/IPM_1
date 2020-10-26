@@ -1,0 +1,91 @@
+# Spanish translations for PACKAGE package
+# Traducciones al español para el paquete PACKAGE.
+# Copyright (C) 2020 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Brais <b.brenlla@udc.es>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 19:07+0100\n"
+"PO-Revision-Date: 2020-10-25 19:48+0100\n"
+"Last-Translator: Brais <b.brenlla@udc.es>\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: model.py:23
+msgid "do"
+msgstr "do"
+
+#: model.py:23
+msgid "re♭"
+msgstr "re♭"
+
+#: model.py:23
+msgid "re"
+msgstr "re"
+
+#: model.py:23
+msgid "mi♭"
+msgstr "mi♭"
+
+#: model.py:23
+msgid "mi"
+msgstr "mi"
+
+#: model.py:23
+msgid "fa"
+msgstr "fa"
+
+#: model.py:23
+msgid "sol♭"
+msgstr "sol♭"
+
+#: model.py:23
+msgid "sol"
+msgstr "sol"
+
+#: model.py:23
+msgid "la♭"
+msgstr "la♭"
+
+#: model.py:23
+msgid "la"
+msgstr "la"
+
+#: model.py:23
+msgid "si♭"
+msgstr "si♭"
+
+#: model.py:23
+msgid "si"
+msgstr "si"
+
+#: view.py:38 view.py:48
+msgid "Intervalos"
+msgstr "Intervalos"
+
+#: view.py:49
+msgid "Seleccione un intervalo"
+msgstr "Seleccione un intervalo"
+
+#: view.py:90
+msgid "Ascendente:"
+msgstr "Ascendente:"
+
+#: view.py:91
+msgid "Descentente:"
+msgstr "Descentente:"
+
+#: view.py:93 view.py:94
+msgid "Exemplo:"
+msgstr "Ejemplo:"
+
+#: view.py:182
+msgid "Error inesperado:\n"
+msgstr "Error inesperado:\n"

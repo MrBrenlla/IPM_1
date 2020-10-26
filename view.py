@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import model
 import gi
 import requests
 import threading
 import os
 import time
+import gettext
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GObject, GLib
@@ -14,10 +16,13 @@ from sys import exit
 from random import randint
 from html import escape
 
+_ = gettext.gettext
+
+
 class View(Gtk.Window):
 
     button_name= None
-    
+
     __gsignals__ = {
         'button-clicked': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
@@ -25,13 +30,13 @@ class View(Gtk.Window):
 
     def main(cls):
         Gtk.main()
-    
-    def main_quit(cls,w,e): 
+
+    def main_quit(cls,w,e):
         Gtk.main_quit()
 
     def build_view(self):
 
-        self.wndw = Gtk.Window(title= "Intervalos")
+        self.wndw = Gtk.Window(title= _("Intervalos"))
 
         #WindowCreation + Properties
         self.wndw.set_default_size(500, 200)
@@ -41,8 +46,8 @@ class View(Gtk.Window):
 
 
         #Header
-        header = Gtk.HeaderBar(title="Intervalos")
-        header.set_subtitle("Seleccione un intervalo")
+        header = Gtk.HeaderBar(title=_("Intervalos"))
+        header.set_subtitle(_("Seleccione un intervalo"))
         header.props.show_close_button = True
         self.wndw.set_titlebar(header)
 
@@ -66,7 +71,7 @@ class View(Gtk.Window):
             label.set_property("width-request", 50)
             label.set_property("height-request", 15)
             flowbox.add(label)
-    
+
     def window_secondary_view(note):
         return Gtk.Window(title= note)
 
@@ -74,20 +79,20 @@ class View(Gtk.Window):
 
         notaInicial = model.Data().notaIni
         distancia= model.Requests.interval_request(note)
-        ascendente= str(model.lNotes[notaInicial])+"-"+str(model.lNotes[(notaInicial+distancia)%12])
-        descendente= str(model.lNotes[notaInicial])+"-"+str(model.lNotes[(notaInicial-distancia)%12])
-        
+        ascendente= _(str(model.lNotes[notaInicial]))+"-"+_(str(model.lNotes[(notaInicial+distancia)%12]))
+        descendente= _(str(model.lNotes[notaInicial]))+"-"+_(str(model.lNotes[(notaInicial-distancia)%12]))
+
         win.set_default_size(300, 200)
         win.set_border_width(30)
 
         grid = Gtk.Grid()
         win.add(grid)
 
-        label_Asc = Gtk.Label(label="Ascendente:", xalign=0)
-        label_Des = Gtk.Label(label="Descentente:", xalign=0)
+        label_Asc = Gtk.Label(label=_("Ascendente:"), xalign=0)
+        label_Des = Gtk.Label(label=_("Descentente:"), xalign=0)
 
-        notes_Asc = Gtk.Label(label="Exemplo:"+ascendente, xalign=0)
-        notes_Des = Gtk.Label(label="Exemplo:"+descendente, xalign=0)
+        notes_Asc = Gtk.Label(label=_("Exemplo:")+ascendente, xalign=0)
+        notes_Des = Gtk.Label(label=_("Exemplo:")+descendente, xalign=0)
 
         lb_Asc = Gtk.ListBox()
         lb_Des = Gtk.ListBox()
@@ -108,7 +113,7 @@ class View(Gtk.Window):
 
 
              lb_Asc.add(song)
-        
+
 
         songsDes= model.Requests.getSongs(note,"des")
 
@@ -143,7 +148,7 @@ class View(Gtk.Window):
         grid.attach_next_to(notes_Des, label_Des, Gtk.PositionType.BOTTOM, 1, 2)
         grid.attach_next_to(lb_Asc, notes_Asc, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(lb_Des, lb_Asc, Gtk.PositionType.RIGHT, 1, 1)
-        
+
 
         GLib.idle_add(self.show_secondary_all,win)
 
@@ -157,7 +162,7 @@ class View(Gtk.Window):
         win.show_all()
 
     def connect_button_clicked(self, button, *args):
-        
+
         self.set_button_name(button.get_label())
         self.emit('button-clicked')
 
@@ -168,14 +173,14 @@ class View(Gtk.Window):
     def get_button_name(self):
         return button_name
 
-        
+
 
 class error:
 
     dialog=None
 
     def server_error(self, e,bool):
-        text= "Unexpected error:\n"+ escape(str(e))
+        text= _("Error inesperado:\n")+ escape(str(e))
         self.dialog = Gtk.Dialog()
         self.dialog.set_title("Error")
         self.dialog.set_modal(True)
@@ -189,5 +194,3 @@ class error:
 
     def end(self,a,b):
         self.dialog.destroy()
-
-    

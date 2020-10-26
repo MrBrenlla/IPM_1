@@ -1,7 +1,14 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 #MODEL - GET DATA
 import gi
 import requests
 import threading
+import gettext
+
+_ = gettext.gettext
+
 
 from gi.repository import GObject, GLib
 GObject.threads_init()
@@ -12,12 +19,12 @@ from html import escape
 
 _error = None
 url = "http://127.0.0.1:5000/" #URL/PORT
-lNotes= ("do","re♭","re","mi♭","mi","fa","sol♭","sol","la♭","la","si♭","si")
+lNotes=("do","re♭","re","mi♭","mi","fa","sol♭","sol","la♭","la","si♭","si")
 
 class Data:
     def __init__(self):
         self.notaIni= randint(0,11)
-        
+
 
 class Requests:
 
@@ -27,11 +34,11 @@ class Requests:
         duracion= r.json()['data'][note_name]
 
 
-        if len(duracion)==2 : 
+        if len(duracion)==2 :
             return int(duracion[0])*2
-        elif len(duracion)==3 : 
+        elif len(duracion)==3 :
             return 1
-        else: 
+        else:
             return int(duracion[0])*2+int(duracion[2])
 
 

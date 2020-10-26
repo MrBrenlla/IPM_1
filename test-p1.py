@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# -*- coding: utf-8 -*-
 
 import sys
 import textwrap
@@ -11,6 +11,8 @@ gi.require_version('Atspi', '2.0')
 from gi.repository import Atspi
 
 import e2e
+
+print('\033[91m', "Esta proba está pensada para facela en es_ES.utf-8,\n ainda que tanto en_US.utf-8 como gl_ES.utf-8 son\n soportadas por ipm-p1.py estas configuracións non \n pasarán este test.\n\n", '\033[0m')
 
 """Histories:
     GIVEN he lanzado la aplicación
@@ -77,7 +79,7 @@ def then_veo_el_texto_asc(ctx):
     return ctx
 
 def then_interv_asc_novacio(ctx):
-    gen = (node for _path, node in e2e.tree(ctx.app) if node.get_role_name() == 'label' and node.get_text(0, -1).startswith("Exemplo:"))
+    gen = (node for _path, node in e2e.tree(ctx.app) if node.get_role_name() == 'label' and node.get_text(0, -1).startswith("Ejemplo:"))
     label = next(gen, None) #Ventana des
     label = next(gen, None) #Ventana asc
     text_size= len("Exemplo:")
